@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Dispositivos</title>
+</head>
+<body>
+    <h1>{{ contexto.Nombre }}</h1>
+    <p>Consumo Máximo: {{Consumo_Maximo}}</p>
+    <p>---------------------------------------------------------------------</p>
+    {% for p in productos %}
+    <p>{{ p.nombre }} --> Valor: {{ p.valor }}</p>
+    {% endfor %}
+    {% if {{p.valor}} >= %}
+</body>
+</html>
