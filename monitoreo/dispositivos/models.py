@@ -33,3 +33,13 @@ class Medicion(models.Model):
 
     def __str__(self):
         return f"Medición con fecha: {self.fecha} del dispositivo: {self.dispositivo.nombre}, consumo: {self.consumo_registrado}"
+    
+class Alerta(models.Model):
+    mensaje = models.CharField(max_length=250)
+    nivel_alerta = models.CharField(max_length=50)
+    fecha = models.DateTimeField(auto_now_add=True)
+    dispositivo = models.ForeignKey(Dispositivo,on_delete=models.CASCADE,null=True)
+
+    def __str__(self):
+        return f"Alerta: {self.mensaje} - Nivel: {self.nivel_alerta} - Dispositivo: {self.dispositivo.nombre}"
+
