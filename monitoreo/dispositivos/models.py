@@ -28,7 +28,7 @@ class Dispositivo(models.Model):
     
 class Medicion(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    consumo_registrado = models.IntergerField()
+    consumo_registrado = models.IntegerField()
     dispositivo = models.ForeignKey(Dispositivo,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
