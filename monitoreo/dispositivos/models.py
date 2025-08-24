@@ -32,4 +32,4 @@ class Medicion(models.Model):
     dispositivo = models.ForeignKey(Dispositivo,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return f"Medicion con fecha: {self.fecha} del dispositivo: {self.dispositivo.nombre}, consumo: {self.consumo_registrado}"
+        return f"Medición con fecha: {self.fecha} del dispositivo: {self.dispositivo.nombre}, consumo: {self.consumo_registrado}"
