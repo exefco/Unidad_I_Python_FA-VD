@@ -1,6 +1,6 @@
 from django.db import models
 
-class BaseModel(model.Model):
+class BaseModel(models.Model):
     ESTADOS = [
         ("ACTIVO","Activo"."INACTIVO","Inactivo")
     ]
