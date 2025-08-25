@@ -2,9 +2,9 @@ from django.db import models
 
 class BaseModel(models.Model):
     ESTADOS = [
-        ("ACTIVO","Activo"."INACTIVO","Inactivo")
+        ("ACTIVO","Activo"),("INACTIVO","Inactivo"),
     ]
-    estado = models.CharField(max_length=10,choises = ESTADOS, default = "ACTIVO")
+    estado = models.CharField(max_length=10,choices = ESTADOS, default = "ACTIVO")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     deleted_at = models.DateTimeField(null=True, blank=True)
@@ -30,8 +30,8 @@ class Zona(BaseModel):
 class Dispositivo(BaseModel):
     nombre = models.CharField(max_length=100)
     consumo_Maximo = models.IntegerField()
-    estado = models.BooleanField(default=True)
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE,null=True)
+    estado = models.CharField(max_length=10, choices = BaseModel.ESTADOS, default="ACTIVO")
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE,null=True, default="Sin Categoria")
     zona = models.ForeignKey(Zona,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
