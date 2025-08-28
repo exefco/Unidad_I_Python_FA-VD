@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from dispositivos.views import inicio
+from dispositivos.views import inicio,dispositivo
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("panel/",inicio),
+    path("dispositivos/<int:dispositivo_id>/",dispositivo,name="dispositivo")
 ]

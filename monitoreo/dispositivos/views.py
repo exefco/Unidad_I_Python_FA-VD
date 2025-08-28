@@ -1,18 +1,13 @@
 from django.shortcuts import render
+from .models import Dispositivo
 
 # Create your views here.
 def inicio(requests):
-    contexto = {"Nombre": "Panel de Dispositivos EcoEnergy"}
-    productos = [{"nombre" : "Sensor de la puerta", "valor": 20},
-                 {"nombre": "Sensor de la ventana", "valor": 120},
-                 {"nombre": "Sensor del piso", "valor": 10},
-                 {"nombre": "Sensor del Ventilador", "valor": 100}]
-    
-    consumo_max = 100
+    dispositivos = Dispositivo.objects.select_related("categoria")
 
-    return render(requests, "dispositivos/panel.html",{
-        "contexto": contexto,
-        "productos": productos,
-        "Consumo_Maximo": consumo_max
+    return render(requests, "dispositivos/panel.html",{"dispositivos":dispositivos})
 
-    })
+def dispositivo(request,dispositivo_id):
+    dispositivo = Dispositivo.objects.get(id=dispositivo_id)
+
+    return render(request,"dispositivos/dispositivo.html",{"dispositivo":dispositivo})

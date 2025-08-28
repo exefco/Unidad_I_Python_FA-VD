@@ -6,18 +6,13 @@
     <title>Panel de Dispositivos</title>
 </head>
 <body>
-    <div class="align-items-center">
-        <h1 style="text-align: center; color: green;">{{ contexto.Nombre }}</h1>
-    </div>
-    <strong>|Consumo Máximo: {{Consumo_Maximo}} kWh|</strong>
-    <p style="background-color: black;">---------------------------------------------------------------------</p>
-    {% for p in productos %}
-        {% if  p.valor  >= Consumo_Maximo %}
-            <p style="color: red;">{{ p.nombre }} ==> Consumo: {{ p.valor }} kWh |Consumo Máximo Excedido|</p>
-        {% else %}
-            <p style="color: green; font-style: oblique;">{{ p.nombre }} ==> Consumo: {{ p.valor }} kWh</p>
-        {% endif %}
-    {% endfor %}
-    <p style="background-color: black;">---------------------------------------------------------------------</p>
+    <ul>
+        {%for d in dispositivos %}
+        <li>{{d.nombre}} - {{d.categoria}}: {{d.categoria.descripcion}}</li>
+            ir a <a href="{% url 'dispositivo' d.id %}">Detalles</a>
+        {%empty%}
+        <li>No hay dispositivos</li>
+        {%endfor%}
+    </ul>
 </body>
 </html>
