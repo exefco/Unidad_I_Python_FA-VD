@@ -5,4 +5,7 @@ admin.site.register([Zona,Categoria,Medicion,Alerta])
 
 @admin.register(Dispositivo)
 class DispositivoAdmin(admin.ModelAdmin):
-    list_display = ("nombre","categoria","zona","consumo_Maximo")
+    list_display = ("nombre","categoria","zona","consumo_maximo")
+    list_filter = ("estado","categoria") #Filtros en el Lateral
+    search_fields = ("nombre",) #Buscador por Nombre
+

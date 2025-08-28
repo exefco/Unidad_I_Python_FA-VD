@@ -1,56 +1,58 @@
 from django.db import models
 
+# -----------------------------
+# Modelo Base con atributos comunes
+# -----------------------------
 class BaseModel(models.Model):
     ESTADOS = [
-        ("ACTIVO","Activo"),("INACTIVO","Inactivo"),
+        ("ACTIVO", "Activo"),
+        ("INACTIVO", "Inactivo"),
     ]
-    estado = models.CharField(max_length=10,choices = ESTADOS, default = "ACTIVO")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateTimeField(null=True, blank=True)
+
+    estado = models.CharField(max_length=10, choices=ESTADOS, default="ACTIVO")
+    created_at = models.DateTimeField(auto_now_add=True)   # se asigna al crear
+    updated_at = models.DateTimeField(auto_now=True)       # se actualiza cada vez que se guarda
+    deleted_at = models.DateTimeField(null=True, blank=True)  # opcional para borrado lógico
 
     class Meta:
-        abstract = True
+        abstract = True   # no crea tabla, solo se hereda
 
+# -----------------------------
+# Tablas principales
+# -----------------------------
 class Categoria(BaseModel):
     nombre = models.CharField(max_length=100)
-    descripcion = models.TextField(blank=True,null=True)
 
     def __str__(self):
         return self.nombre
 
 class Zona(BaseModel):
-    nombre = models.CharField(max_length=150)
-    ubicacion = models.CharField(max_length=250)
+    nombre = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nombre
-
 
 class Dispositivo(BaseModel):
     nombre = models.CharField(max_length=100)
-    consumo_Maximo = models.IntegerField()
-    estado = models.CharField(max_length=10, choices = BaseModel.ESTADOS, default="ACTIVO")
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE,null=True, default="Sin Categoria")
-    zona = models.ForeignKey(Zona,on_delete=models.CASCADE,null=True)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    zona = models.ForeignKey(Zona, on_delete=models.CASCADE)
+    consumo_maximo = models.IntegerField()  # watts
 
     def __str__(self):
         return self.nombre
-    
+
 class Medicion(BaseModel):
+    dispositivo = models.ForeignKey(Dispositivo, on_delete=models.CASCADE)
     fecha = models.DateTimeField(auto_now_add=True)
-    consumo_registrado = models.IntegerField()
-    dispositivo = models.ForeignKey(Dispositivo,on_delete=models.CASCADE,null=True)
+    consumo = models.FloatField(default=0.0)  # kWh
 
     def __str__(self):
-        return f"Medición con fecha: {self.fecha} del dispositivo: {self.dispositivo.nombre}, consumo: {self.consumo_registrado}"
-    
+        return f"{self.dispositivo} - {self.consumo} kWh"
+
 class Alerta(BaseModel):
-    mensaje = models.CharField(max_length=250)
-    nivel_alerta = models.CharField(max_length=50)
+    dispositivo = models.ForeignKey(Dispositivo, on_delete=models.CASCADE)
+    mensaje = models.CharField(max_length=200)
     fecha = models.DateTimeField(auto_now_add=True)
-    dispositivo = models.ForeignKey(Dispositivo,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return f"Alerta: {self.mensaje} - Nivel: {self.nivel_alerta} - Dispositivo: {self.dispositivo.nombre}"
-
+        return f"Alerta {self.dispositivo} - {self.mensaje}"
