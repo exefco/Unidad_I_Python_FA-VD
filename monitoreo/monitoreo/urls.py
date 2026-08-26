@@ -16,11 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from dispositivos.views import inicio,dispositivo
+from dispositivos.views import inicio,dispositivo,crear_dispositivos,eliminar_dispositivo,editar_dispositivo
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("panel/",inicio),
-    path("dispositivos/<int:dispositivo_id>/",dispositivo,name="dispositivo")
+    path("panel/",inicio, name="listar_dispositivos"),
+    path("dispositivos/<int:dispositivo_id>/",dispositivo,name="dispositivo"),
+    path("dispositivos/crear",crear_dispositivos,name="crear_dispositivos"),
+    path('dispositivos/eliminar/<int:dispositivo_id>/',eliminar_dispositivo,name="eliminar_dispositivo"),
+    path('dispositivos/editar/<int:dispositivo_id>/',editar_dispositivo,name="editar_dispositivo")
 ]
